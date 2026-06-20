@@ -1,27 +1,75 @@
 {
   "name": "J.A.R.V.I.S. - GOD MOD Empire",
   "short_name": "JARVIS",
-  "description": "GOD MOD Empire AI Assistant - Track revenue, jobs, goals & control your empire",
+  "description": "GOD MOD Empire AI Assistant - Track revenue, jobs, goals & control your automation empire with voice commands",
   "start_url": "/god-mod-empire/",
   "display": "standalone",
-  "background_color": "#050d1a",
+  "background_color": "#000000",
   "theme_color": "#00f0ff",
-  "orientation": "any",
+  "orientation": "portrait",
+  "id": "/god-mod-empire/",
+  "lang": "en-US",
+  "dir": "ltr",
+  "scope": "/god-mod-empire/",
   "icons": [
     {
-      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='100' fill='%23050d1a'/%3E%3Ctext x='256' y='340' text-anchor='middle' font-family='monospace' font-size='320' font-weight='bold' fill='%2300f0ff'%3EG%3C/text%3E%3C/svg%3E",
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='100' fill='%23000'/%3E%3Ctext x='256' y='360' text-anchor='middle' font-family='monospace' font-size='360' font-weight='bold' fill='%2300f0ff'%3EG%3C/text%3E%3C/svg%3E",
       "sizes": "512x512",
       "type": "image/svg+xml",
       "purpose": "any maskable"
     },
     {
-      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect width='192' height='192' rx='38' fill='%23050d1a'/%3E%3Ctext x='96' y='130' text-anchor='middle' font-family='monospace' font-size='120' font-weight='bold' fill='%2300f0ff'%3EG%3C/text%3E%3C/svg%3E",
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect width='192' height='192' rx='38' fill='%23000'/%3E%3Ctext x='96' y='135' text-anchor='middle' font-family='monospace' font-size='135' font-weight='bold' fill='%2300f0ff'%3EG%3C/text%3E%3C/svg%3E",
       "sizes": "192x192",
       "type": "image/svg+xml",
       "purpose": "any maskable"
+    },
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 144 144'%3E%3Crect width='144' height='144' rx='28' fill='%23000'/%3E%3Ctext x='72' y='102' text-anchor='middle' font-family='monospace' font-size='100' font-weight='bold' fill='%2300f0ff'%3EG%3C/text%3E%3C/svg%3E",
+      "sizes": "144x144",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96'%3E%3Crect width='96' height='96' rx='18' fill='%23000'/%3E%3Ctext x='48' y='68' text-anchor='middle' font-family='monospace' font-size='68' font-weight='bold' fill='%2300f0ff'%3EG%3C/text%3E%3C/svg%3E",
+      "sizes": "96x96",
+      "type": "image/svg+xml",
+      "purpose": "any"
     }
   ],
-  "categories": ["productivity", "finance", "business"],
+  "categories": ["productivity", "finance", "business", "utilities"],
+  "screenshots": [],
   "prefer_related_applications": false,
-  "scope": "/god-mod-empire/"
+  "related_applications": [],
+  "shortcuts": [
+    {
+      "name": "Empire Dashboard",
+      "short_name": "Dashboard",
+      "description": "View empire metrics and goals",
+      "url": "/god-mod-empire/#dashboard",
+      "icons": [{ "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96'%3E%3Crect width='96' height='96' rx='18' fill='%2300f0ff' opacity='0.2'/%3E%3Ctext x='48' y='68' text-anchor='middle' font-family='monospace' font-size='48' font-weight='bold' fill='%2300f0ff'%3EM%3C/text%3E%3C/svg%3E", "sizes": "96x96" }]
+    },
+    {
+      "name": "Wallet",
+      "short_name": "Wallet",
+      "description": "View your balance and transactions",
+      "url": "/god-mod-empire/?wallet=true",
+      "icons": [{ "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96'%3E%3Crect width='96' height='96' rx='18' fill='%23ffd700' opacity='0.2'/%3E%3Ctext x='48' y='68' text-anchor='middle' font-family='monospace' font-size='48' font-weight='bold' fill='%23ffd700'%3EW%3C/text%3E%3C/svg%3E", "sizes": "96x96" }]
+    },
+    {
+      "name": "Automation",
+      "short_name": "Auto-Pilot",
+      "description": "Control your automation cycles",
+      "url": "/god-mod-empire/?auto=true",
+      "icons": [{ "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96'%3E%3Crect width='96' height='96' rx='18' fill='%2300ff88' opacity='0.2'/%3E%3Ctext x='48' y='68' text-anchor='middle' font-family='monospace' font-size='48' font-weight='bold' fill='%2300ff88'%3EA%3C/text%3E%3C/svg%3E", "sizes": "96x96" }]
+    }
+  ],
+  "display_override": ["standalone", "window-controls-overlay"],
+  "handle_links": "auto",
+  "launch_handler": {
+    "client_mode": "navigate-existing"
+  },
+  "edge_side_panel": {
+    "preferred_width": 420
+  }
 }
