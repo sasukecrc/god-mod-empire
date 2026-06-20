@@ -2,15 +2,15 @@ name: GOD MOD Empire - 24/7 Operation
 
 on:
   schedule:
-    - cron: '0 */3 * * *'    # Every 3 hours (8 cycles/day)
-    - cron: '30 */3 * * *'   # Extra staggered runs
-  workflow_dispatch:         # Manual trigger
+    - cron: '0 */3 * * *'
+    - cron: '30 */3 * * *'
+  workflow_dispatch:
   push:
     branches: [main]
 
 jobs:
   run-god-mod-cycle:
-    name: Run GOD MOD Cycle
+    name: Run GOD MOD Empire Cycle
     runs-on: ubuntu-latest
     timeout-minutes: 30
 
@@ -34,17 +34,17 @@ jobs:
 
       - name: Run GOD MOD Empire Cycle
         env:
-          COMPOSIO_API_KEY: \${{ secrets.COMPOSIO_API_KEY }}
+          COMPOSIO_API_KEY: ${{ secrets.COMPOSIO_API_KEY }}
         run: |
           python GOD_MOD.py --once 2>&1 | tee cycle_output.log
 
       - name: Save Cycle Results
         if: always()
         run: |
-          echo "## GOD MOD Empire - Cycle Results" >> \$GITHUB_STEP_SUMMARY
-          echo '\`\`\`' >> \$GITHUB_STEP_SUMMARY
-          cat cycle_output.log | tail -80 >> \$GITHUB_STEP_SUMMARY
-          echo '\`\`\`' >> \$GITHUB_STEP_SUMMARY
+          echo "## GOD MOD Empire - Cycle Results" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          cat cycle_output.log | tail -80 >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
 
       - name: Upload Results
         if: always()
