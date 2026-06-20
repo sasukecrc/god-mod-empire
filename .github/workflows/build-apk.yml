@@ -1,0 +1,88 @@
+name: Build Android APK
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'App version (e.g. 1.0.0)'
+        required: false
+        default: '1.0.0'
+      versionCode:
+        description: 'Version code (integer)'
+        required: false
+        default: '1'
+  push:
+    branches: [ main ]
+    paths:
+      - 'docs/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Install Bubblewrap CLI
+        run: npm install -g @bubblewrap/cli
+
+      - name: Create Android app directory
+        run: mkdir -p android-app
+
+      - name: Initialize TWA project
+        run: |
+          npx --yes @bubblewrap/cli init \
+            --manifest=https://sasukecrc.github.io/god-mod-empire/manifest.json \
+            --directory=android-app \
+            --appVersion="${{ github.event.inputs.version || '1.0.0' }}" \
+            --appVersionCode=${{ github.event.inputs.versionCode || '1' }} \
+            --host=god-mod-empire \
+            --enableNotifications=true
+
+      - name: Build APK
+        run: |
+          cd android-app
+          npx --yes @bubblewrap/cli build
+          cd ..
+
+      - name: List output files
+        run: |
+          echo "=== Android app directory ==="
+          find android-app -name "*.apk" -o -name "*.aab" 2>/dev/null || echo "No APK/AAB found"
+          echo "=== All output files ==="
+          find android-app -type f -name "*.apk" -o -name "*.aab" -o -name "*.zip" 2>/dev/null | head -20
+
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: jarvis-android-apk
+          path: |
+            android-app/**/*.apk
+            android-app/**/*.aab
+            android-app/**/*.zip
+          if-no-files-found: warn
+          retention-days: 90
+
+      - name: Create release summary
+        run: |
+          echo "## J.A.R.V.I.S. Android APK Build" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Detail | Value |" >> $GITHUB_STEP_SUMMARY
+          echo "|--------|-------|" >> $GITHUB_STEP_SUMMARY
+          echo "| Version | ${{ github.event.inputs.version || '1.0.0' }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Version Code | ${{ github.event.inputs.versionCode || '1' }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Package | com.godmodempire.jarvis |" >> $GITHUB_STEP_SUMMARY
+          echo "| PWA URL | https://sasukecrc.github.io/god-mod-empire/ |" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Download the APK from the workflow artifacts above. Transfer to your phone and install." >> $GITHUB_STEP_SUMMARY
