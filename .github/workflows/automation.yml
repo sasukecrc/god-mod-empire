@@ -1,0 +1,58 @@
+name: GOD MOD Empire - 24/7 Operation
+
+on:
+  schedule:
+    - cron: '0 */3 * * *'    # Every 3 hours (8 cycles/day)
+    - cron: '30 */3 * * *'   # Extra staggered runs
+  workflow_dispatch:         # Manual trigger
+  push:
+    branches: [main]
+
+jobs:
+  run-god-mod-cycle:
+    name: Run GOD MOD Cycle
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - name: Create data directories
+        run: |
+          mkdir -p data websites
+
+      - name: Run GOD MOD Empire Cycle
+        env:
+          COMPOSIO_API_KEY: \${{ secrets.COMPOSIO_API_KEY }}
+        run: |
+          python GOD_MOD.py --once 2>&1 | tee cycle_output.log
+
+      - name: Save Cycle Results
+        if: always()
+        run: |
+          echo "## GOD MOD Empire - Cycle Results" >> \$GITHUB_STEP_SUMMARY
+          echo '\`\`\`' >> \$GITHUB_STEP_SUMMARY
+          cat cycle_output.log | tail -80 >> \$GITHUB_STEP_SUMMARY
+          echo '\`\`\`' >> \$GITHUB_STEP_SUMMARY
+
+      - name: Upload Results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: god-mod-cycle-results
+          path: |
+            data/
+            websites/
+            cycle_output.log
+          retention-days: 7
